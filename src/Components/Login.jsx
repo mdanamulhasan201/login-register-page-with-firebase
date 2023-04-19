@@ -4,7 +4,7 @@ import { AuthContext } from '../providers/AuthProvider';
 
 const Login = () => {
 
-    const { signIn } =useContext(AuthContext);
+    const { signIn, signInWithGoogle } = useContext(AuthContext);
     console.log(signIn)
 
     const handleLogin = (event) => {
@@ -17,14 +17,25 @@ const Login = () => {
         console.log(email, password)
 
         signIn(email, password)
-        .then(result =>{
-            const loggedUser = result.user;
-            console.log(loggedUser)
-            form.reset()
-        })
-        .catch(error =>{
-            console.log(error)
-        })
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser)
+                form.reset()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     return (
@@ -60,13 +71,19 @@ const Login = () => {
                         <div className="form-control mt-6">
                             <button className="btn bg-neutral">Login</button>
                         </div>
+
+
+                        <div className='flex mb-5'>
+                            <>Don't have an account?</>
+                            <Link to='/register'>
+                                <button className="link  text-neutral link-link ms-2">Please Register</button>
+                            </Link>
+                        </div>
+                        <div>
+                            <button onClick={handleGoogleSignIn} className="btn btn-sm">Sign in with Google</button>
+                        </div>
                     </form>
-                    <div className='flex ms-8 mb-5'>
-                        <p className='mr-2'>Don't have an account?</p>
-                        <Link to='/register'>
-                            <button className="link  text-neutral link-link">Please Register</button>
-                        </Link>
-                    </div>
+
                 </div>
             </div>
         </div>
